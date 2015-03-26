@@ -1,0 +1,21 @@
+{
+  "folders":
+  [
+    {
+      "path": "src"
+    },
+    {
+      "path": "bin"
+    },
+    {
+      "path": "test"
+    }
+  ],
+  "build_systems":
+  [
+    {
+      "name": "CoffeeScript Gulp",
+      "cmd": ["/usr/local/bin/gulp"]
+    }
+  ]
+}

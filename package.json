@@ -1,0 +1,13 @@
+{
+  "name": "webgl-experiment",
+  "version": "0.0.0",
+  "description": "",
+  "author": "Michael Wiktorek",
+  "dependencies": {
+    "gulp": "~3.8.11",
+    "browserify": "^9.0.3",
+    "coffeeify": "~1.0.0",
+    "watchify": "~2.4.0",
+    "vinyl-source-stream": "~1.0.0"
+  }
+}

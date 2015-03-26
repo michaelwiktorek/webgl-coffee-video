@@ -3,10 +3,11 @@
     <title>
       coffee webgl
     </title>
-    <style>
-    video { /* comment out to show raw video*/
+    <!-- comment out to show raw video-->
+    <style> 
+    /*video {  
       display: none;
-    }
+    }*/
     </style>
 
     <script id="vert-shader" type="x-shader/x-vertex">
@@ -50,27 +51,31 @@
       void main(){
         vec2 onePixel = vec2(1.0, 1.0) / u_textureSize;
         vec4 colorSum =
-     texture2D(u_image, v_texCoord + onePixel * vec2(-1, -1)) * -1.0 +
-     texture2D(u_image, v_texCoord + onePixel * vec2( 0, -1)) * -2.0 +
-     texture2D(u_image, v_texCoord + onePixel * vec2( 1, -1)) * -1.0 +
-     texture2D(u_image, v_texCoord + onePixel * vec2(-1,  0)) * 0.0 +
-     texture2D(u_image, v_texCoord + onePixel * vec2( 0,  0)) * 0.0 +
-     texture2D(u_image, v_texCoord + onePixel * vec2( 1,  0)) * 0.0 +
-     texture2D(u_image, v_texCoord + onePixel * vec2(-1,  1)) * 1.0 +
-     texture2D(u_image, v_texCoord + onePixel * vec2( 0,  1)) * 2.0 +
-     texture2D(u_image, v_texCoord + onePixel * vec2( 1,  1)) * 1.0 +
-     texture2D(u_image, v_texCoord + onePixel * vec2(-1, -1)) * -1.0 +
-     texture2D(u_image, v_texCoord + onePixel * vec2( 0, -1)) * 0.0 +
-     texture2D(u_image, v_texCoord + onePixel * vec2( 1, -1)) * -1.0 +
-     texture2D(u_image, v_texCoord + onePixel * vec2(-1,  0)) * -2.0 +
-     texture2D(u_image, v_texCoord + onePixel * vec2( 0,  0)) * 0.0 +
-     texture2D(u_image, v_texCoord + onePixel * vec2( 1,  0)) * 2.0 +
-     texture2D(u_image, v_texCoord + onePixel * vec2(-1,  1)) * 1.0 +
-     texture2D(u_image, v_texCoord + onePixel * vec2( 0,  1)) * 0.0 +
-     texture2D(u_image, v_texCoord + onePixel * vec2( 1,  1)) * 1.0 ;
+          texture2D(u_image, v_texCoord + onePixel * vec2(-1, -1)) * -1.0 +
+          texture2D(u_image, v_texCoord + onePixel * vec2( 0, -1)) * -2.0 +
+          texture2D(u_image, v_texCoord + onePixel * vec2( 1, -1)) * -1.0 +
+          texture2D(u_image, v_texCoord + onePixel * vec2(-1,  0)) * 0.0 +
+          texture2D(u_image, v_texCoord + onePixel * vec2( 0,  0)) * 0.0 +
+          texture2D(u_image, v_texCoord + onePixel * vec2( 1,  0)) * 0.0 +
+          texture2D(u_image, v_texCoord + onePixel * vec2(-1,  1)) * 1.0 +
+          texture2D(u_image, v_texCoord + onePixel * vec2( 0,  1)) * 2.0 +
+          texture2D(u_image, v_texCoord + onePixel * vec2( 1,  1)) * 1.0 +
+          texture2D(u_image, v_texCoord + onePixel * vec2(-1, -1)) * -1.0 +
+          texture2D(u_image, v_texCoord + onePixel * vec2( 0, -1)) * 0.0 +
+          texture2D(u_image, v_texCoord + onePixel * vec2( 1, -1)) * -1.0 +
+          texture2D(u_image, v_texCoord + onePixel * vec2(-1,  0)) * -2.0 +
+          texture2D(u_image, v_texCoord + onePixel * vec2( 0,  0)) * 0.0 +
+          texture2D(u_image, v_texCoord + onePixel * vec2( 1,  0)) * 2.0 +
+          texture2D(u_image, v_texCoord + onePixel * vec2(-1,  1)) * 1.0 +
+          texture2D(u_image, v_texCoord + onePixel * vec2( 0,  1)) * 0.0 +
+          texture2D(u_image, v_texCoord + onePixel * vec2( 1,  1)) * 1.0 ;
+        // if (colorSum.r > 0.12 && colorSum.g > 0.12 && colorSum.b > 0.12) {
+        //   gl_FragColor = vec4((colorSum).rgb, 1.0);
+        // } else {
+        //   gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+        // }
         // get color from texture
-        //gl_FragColor = texture2D(u_image, v_texCoord);
-        gl_FragColor = vec4((colorSum * 1.5 / 2.0).rgb, 1.0);
+        gl_FragColor = vec4((colorSum).rgb, 1.0);
       }
 
     </script>

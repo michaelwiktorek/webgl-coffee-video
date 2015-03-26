@@ -47,6 +47,7 @@ class Graphics
     fragmentShader = @gl.createShader(@gl.FRAGMENT_SHADER)
     @gl.shaderSource(fragmentShader, shaderSource)
     @gl.compileShader(fragmentShader)
+    console.log(@gl.getShaderInfoLog(fragmentShader))
 
     @program = @gl.createProgram()
     @gl.attachShader(@program, vertexShader)
@@ -80,6 +81,10 @@ class Graphics
     @gl.bindBuffer(@gl.ARRAY_BUFFER, buffer)
     @gl.enableVertexAttribArray(positionLocation)
     @gl.vertexAttribPointer(positionLocation, 2, @gl.FLOAT, false, 0, 0)
+
+    textureSizeLocation = @gl.getUniformLocation(@program, "u_textureSize")
+    @gl.uniform2f(textureSizeLocation, 640, 480)
+
     @setRectangle(0, 0, 640, 480)
     # @positionLocation = @gl.getAttribLocation(@program, "a_position")
     # @gl.enableVertexAttribArray(@positionLocation)

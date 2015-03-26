@@ -44,9 +44,33 @@
       uniform sampler2D u_image;
       //texCoord from vertex shader
       varying vec2 v_texCoord;
+      // texture size
+      uniform vec2 u_textureSize;
+
       void main(){
+        vec2 onePixel = vec2(1.0, 1.0) / u_textureSize;
+        vec4 colorSum =
+     texture2D(u_image, v_texCoord + onePixel * vec2(-1, -1)) * -1.0 +
+     texture2D(u_image, v_texCoord + onePixel * vec2( 0, -1)) * -2.0 +
+     texture2D(u_image, v_texCoord + onePixel * vec2( 1, -1)) * -1.0 +
+     texture2D(u_image, v_texCoord + onePixel * vec2(-1,  0)) * 0.0 +
+     texture2D(u_image, v_texCoord + onePixel * vec2( 0,  0)) * 0.0 +
+     texture2D(u_image, v_texCoord + onePixel * vec2( 1,  0)) * 0.0 +
+     texture2D(u_image, v_texCoord + onePixel * vec2(-1,  1)) * 1.0 +
+     texture2D(u_image, v_texCoord + onePixel * vec2( 0,  1)) * 2.0 +
+     texture2D(u_image, v_texCoord + onePixel * vec2( 1,  1)) * 1.0 +
+     texture2D(u_image, v_texCoord + onePixel * vec2(-1, -1)) * -1.0 +
+     texture2D(u_image, v_texCoord + onePixel * vec2( 0, -1)) * 0.0 +
+     texture2D(u_image, v_texCoord + onePixel * vec2( 1, -1)) * -1.0 +
+     texture2D(u_image, v_texCoord + onePixel * vec2(-1,  0)) * -2.0 +
+     texture2D(u_image, v_texCoord + onePixel * vec2( 0,  0)) * 0.0 +
+     texture2D(u_image, v_texCoord + onePixel * vec2( 1,  0)) * 2.0 +
+     texture2D(u_image, v_texCoord + onePixel * vec2(-1,  1)) * 1.0 +
+     texture2D(u_image, v_texCoord + onePixel * vec2( 0,  1)) * 0.0 +
+     texture2D(u_image, v_texCoord + onePixel * vec2( 1,  1)) * 1.0 ;
         // get color from texture
-        gl_FragColor = texture2D(u_image, v_texCoord);
+        //gl_FragColor = texture2D(u_image, v_texCoord);
+        gl_FragColor = vec4((colorSum * 1.5 / 2.0).rgb, 1.0);
       }
 
     </script>

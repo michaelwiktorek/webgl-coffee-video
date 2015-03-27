@@ -87,8 +87,10 @@
     <script src="../bin/main.js"></script>
   <head>
   <body>
-    <button id="start_video">Start Video</button>
-    <button id="stop_video">Stop Video</button> 
+    <h1> gpu-accelerated live video processing with webgl </h1>
+    by Michael Wiktorek <br/><br/>
+    <button id="start_video">Start Webcam</button>
+    <button id="stop_video">Stop Webcam</button> 
     kernel
     <select id="kernels">
       <option value="none">none</option>
@@ -99,7 +101,7 @@
       <option value="laplacian3">laplacian #3</option>
       <option value="emboss">emboss</option>
     </select><br/>
-    <video id="video" width="256" height="256" autoplay></video>
+    <video id="video" width="256" height="256" autoplay></video><br/>
     <canvas id="glcanvas" width="640" height="480">
       try chrome!
     </canvas>

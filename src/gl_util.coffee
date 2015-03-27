@@ -30,15 +30,12 @@ class Graphics
       "laplacian1": [ -1, -1, -1,
                       -1,  8, -1,
                       -1, -1, -1 ],
-      "laplacian2": [  0, -1,  0,
-                      -1,  4, -1,
-                       0, -1,  0 ],
       "laplacian3": [ -2,  1, -2,
                        1,  4,  1,
                       -2,  1, -2 ],
-      "laplacian4": [  1, -2,  1,
-                      -2,  4, -2,
-                       1, -2,  1 ]
+      "emboss":     [ -2, -1,  0,
+                      -1,  1,  1,
+                       0,  1,  2 ]
     }
     #@img = new Image();
     #@img.src = "../img/internetsurf.jpg"

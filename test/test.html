@@ -5,9 +5,9 @@
     </title>
     <!-- comment out to show raw video-->
     <style> 
-    /*video {  
+    video {  
       display: none;
-    }*/
+    }
     </style>
 
     <script id="vert-shader" type="x-shader/x-vertex">
@@ -47,35 +47,39 @@
       varying vec2 v_texCoord;
       // texture size
       uniform vec2 u_textureSize;
+      // kernel
+      uniform float u_kernel[9];
 
       void main(){
         vec2 onePixel = vec2(1.0, 1.0) / u_textureSize;
         vec4 colorSum =
-          texture2D(u_image, v_texCoord + onePixel * vec2(-1, -1)) * -1.0 +
-          texture2D(u_image, v_texCoord + onePixel * vec2( 0, -1)) * -2.0 +
-          texture2D(u_image, v_texCoord + onePixel * vec2( 1, -1)) * -1.0 +
-          texture2D(u_image, v_texCoord + onePixel * vec2(-1,  0)) * 0.0 +
-          texture2D(u_image, v_texCoord + onePixel * vec2( 0,  0)) * 0.0 +
-          texture2D(u_image, v_texCoord + onePixel * vec2( 1,  0)) * 0.0 +
-          texture2D(u_image, v_texCoord + onePixel * vec2(-1,  1)) * 1.0 +
-          texture2D(u_image, v_texCoord + onePixel * vec2( 0,  1)) * 2.0 +
-          texture2D(u_image, v_texCoord + onePixel * vec2( 1,  1)) * 1.0 +
-          texture2D(u_image, v_texCoord + onePixel * vec2(-1, -1)) * -1.0 +
-          texture2D(u_image, v_texCoord + onePixel * vec2( 0, -1)) * 0.0 +
-          texture2D(u_image, v_texCoord + onePixel * vec2( 1, -1)) * -1.0 +
-          texture2D(u_image, v_texCoord + onePixel * vec2(-1,  0)) * -2.0 +
-          texture2D(u_image, v_texCoord + onePixel * vec2( 0,  0)) * 0.0 +
-          texture2D(u_image, v_texCoord + onePixel * vec2( 1,  0)) * 2.0 +
-          texture2D(u_image, v_texCoord + onePixel * vec2(-1,  1)) * 1.0 +
-          texture2D(u_image, v_texCoord + onePixel * vec2( 0,  1)) * 0.0 +
-          texture2D(u_image, v_texCoord + onePixel * vec2( 1,  1)) * 1.0 ;
-        // if (colorSum.r > 0.12 && colorSum.g > 0.12 && colorSum.b > 0.12) {
-        //   gl_FragColor = vec4((colorSum).rgb, 1.0);
-        // } else {
-        //   gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
-        // }
-        // get color from texture
-        gl_FragColor = vec4((colorSum).rgb, 1.0);
+          texture2D(u_image, v_texCoord + onePixel * vec2(-1, -1)) * u_kernel[0] +
+          texture2D(u_image, v_texCoord + onePixel * vec2( 0, -1)) * u_kernel[1] +
+          texture2D(u_image, v_texCoord + onePixel * vec2( 1, -1)) * u_kernel[2] +
+          texture2D(u_image, v_texCoord + onePixel * vec2(-1,  0)) * u_kernel[3] +
+          texture2D(u_image, v_texCoord + onePixel * vec2( 0,  0)) * u_kernel[4] +
+          texture2D(u_image, v_texCoord + onePixel * vec2( 1,  0)) * u_kernel[5] +
+          texture2D(u_image, v_texCoord + onePixel * vec2(-1,  1)) * u_kernel[6] +
+          texture2D(u_image, v_texCoord + onePixel * vec2( 0,  1)) * u_kernel[7] +
+          texture2D(u_image, v_texCoord + onePixel * vec2( 1,  1)) * u_kernel[8] ;
+        float kernelWeight =
+          u_kernel[0] +
+          u_kernel[1] +
+          u_kernel[2] +
+          u_kernel[3] +
+          u_kernel[4] +
+          u_kernel[5] +
+          u_kernel[6] +
+          u_kernel[7] +
+          u_kernel[8] ;
+      
+        if (kernelWeight <= 0.0) {
+          kernelWeight = 1.0;
+        }
+
+        // Divide the sum by the weight but just use rgb
+        // we'll set alpha to 1.0
+        gl_FragColor = vec4((colorSum / kernelWeight).rgb, 1.0);
       }
 
     </script>
@@ -84,7 +88,18 @@
   <head>
   <body>
     <button id="start_video">Start Video</button>
-    <button id="stop_video">Stop Video</button> <br/>
+    <button id="stop_video">Stop Video</button> 
+    kernel
+    <select id="kernels">
+      <option value="none">none</option>
+      <option value="sobelhoriz">sobel horizontal</option>
+      <option value="sobelvert">sobel vertical</option>
+      <option value="gaussian">gaussian blur</option>
+      <option value="laplacian1">laplacian #1</option>
+      <option value="laplacian2">laplacian #2</option>
+      <option value="laplacian3">laplacian #3</option>
+      <option value="laplacian4">laplacian #4</option>
+    </select><br/>
     <video id="video" width="256" height="256" autoplay></video>
     <canvas id="glcanvas" width="640" height="480">
       try chrome!

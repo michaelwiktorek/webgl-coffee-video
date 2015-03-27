@@ -9,12 +9,39 @@ class Graphics
   @positionLocation: null
   @img: null
   @vid: null # video object
+  @kernels: null
 
   constructor: (canvas) ->
     @gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl")
     @gl.viewport(0,0, @gl.drawingBufferWidth, @gl.drawingBufferHeight)
-    @img = new Image();
-    @img.src = "../img/internetsurf.jpg"
+    @kernels = {
+      "none":       [  0,  0,  0,
+                       0,  1,  0,
+                       0,  0,  0 ],
+      "sobelhoriz": [ -1, -2, -1,
+                       0,  0,  0,
+                       1,  2,  1 ],
+      "sobelvert":  [ -1,  0,  1,
+                      -2,  0,  2,
+                      -1,  0,  1 ],
+      "gaussian":   [  1,  2,  1,
+                       2,  4,  2,
+                       1,  2,  1 ],
+      "laplacian1": [ -1, -1, -1,
+                      -1,  8, -1,
+                      -1, -1, -1 ],
+      "laplacian2": [  0, -1,  0,
+                      -1,  4, -1,
+                       0, -1,  0 ],
+      "laplacian3": [ -2,  1, -2,
+                       1,  4,  1,
+                      -2,  1, -2 ],
+      "laplacian4": [  1, -2,  1,
+                      -2,  4, -2,
+                       1, -2,  1 ]
+    }
+    #@img = new Image();
+    #@img.src = "../img/internetsurf.jpg"
     #@img.onload = @init
 
   # initialize graphics
@@ -85,10 +112,18 @@ class Graphics
     textureSizeLocation = @gl.getUniformLocation(@program, "u_textureSize")
     @gl.uniform2f(textureSizeLocation, 640, 480)
 
+    @setKernel("none")
+
     @setRectangle(0, 0, 640, 480)
     # @positionLocation = @gl.getAttribLocation(@program, "a_position")
     # @gl.enableVertexAttribArray(@positionLocation)
     # @gl.vertexAttribPointer(@positionLocation, 2, @gl.FLOAT, false, 0, 0)
+
+  setKernel: (name) ->
+    console.log("setting kernel")
+    kernelLocation = @gl.getUniformLocation(@program, "u_kernel[0]")
+    kernel = @kernels[name]
+    @gl.uniform1fv(kernelLocation, kernel)
 
   setRectangle: (x, y, width, height)->
     x2 = x + width
